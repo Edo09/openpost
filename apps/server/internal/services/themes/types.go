@@ -218,7 +218,7 @@ type ThemeShellTokens struct {
 	SidebarWidth           string `json:"sidebarWidth"`
 	HeaderHeight           string `json:"headerHeight"`
 	MobileNavigationHeight string `json:"mobileNavigationHeight"`
-	CanvasTreatment        string `json:"canvasTreatment" enum:"plain,paper,playful,garden,study,tactile,precision"`
+	CanvasTreatment        string `json:"canvasTreatment" enum:"plain,paper,playful,garden,study,tactile,precision,stage"`
 }
 
 type ThemeComponentRecipes struct {

@@ -796,7 +796,8 @@ export function randomizeThemeManifest(
 			'garden',
 			'study',
 			'tactile',
-			'precision'
+			'precision',
+			'stage'
 		] as const;
 		target.shell.canvasTreatment = treatments[Math.floor(random() * treatments.length)]!;
 	}

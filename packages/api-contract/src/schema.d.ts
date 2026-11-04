@@ -17003,7 +17003,7 @@ export interface components {
         };
         ThemeShellTokens: {
             /** @enum {string} */
-            canvasTreatment: "plain" | "paper" | "playful" | "garden" | "study" | "tactile" | "precision";
+            canvasTreatment: "plain" | "paper" | "playful" | "garden" | "study" | "tactile" | "precision" | "stage";
             contentMaxWidth: string;
             headerHeight: string;
             mobileNavigationHeight: string;

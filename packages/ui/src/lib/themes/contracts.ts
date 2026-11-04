@@ -30,6 +30,7 @@ export const THEME_FAMILY_IDS = [
   "linear",
   "quizlet",
   "posthog",
+  "roberto-music",
   "dither",
   "dither-moss",
   "calm",
@@ -367,6 +368,7 @@ export const THEME_CANVAS_TREATMENTS = [
   "study",
   "tactile",
   "precision",
+  "stage",
 ] as const;
 export type ThemeCanvasTreatment = (typeof THEME_CANVAS_TREATMENTS)[number];
 

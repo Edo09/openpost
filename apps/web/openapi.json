@@ -24655,7 +24655,16 @@
 				"additionalProperties": false,
 				"properties": {
 					"canvasTreatment": {
-						"enum": ["plain", "paper", "playful", "garden", "study", "tactile", "precision"],
+						"enum": [
+							"plain",
+							"paper",
+							"playful",
+							"garden",
+							"study",
+							"tactile",
+							"precision",
+							"stage"
+						],
 						"type": "string"
 					},
 					"contentMaxWidth": {

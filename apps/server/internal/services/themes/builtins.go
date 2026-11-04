@@ -43,6 +43,7 @@ var builtInOrder = []string{
 	"column",
 	"duolingo",
 	"quizlet",
+	"roberto-music",
 	"dither",
 	"dither-moss",
 	"calm",

@@ -195,6 +195,47 @@
   --theme-canvas-size: auto;
 }
 
+/* Stage lighting: the brand key light with washes from the second and fourth
+   data colors. Light schemes halve the washes so text surfaces stay quiet. */
+[data-theme-canvas="stage"] {
+  --theme-canvas-treatment:
+    radial-gradient(
+      62% 38% at 10% 4%,
+      color-mix(in oklch, var(--chart-2) 13%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      55% 34% at 92% 18%,
+      color-mix(in oklch, var(--brand) 16%, transparent),
+      transparent 64%
+    ),
+    radial-gradient(
+      70% 40% at 46% 82%,
+      color-mix(in oklch, var(--chart-4) 10%, transparent),
+      transparent 66%
+    );
+  --theme-canvas-size: 100% 100%;
+}
+
+[data-theme-canvas="stage"][data-theme-scheme="light"] {
+  --theme-canvas-treatment:
+    radial-gradient(
+      62% 38% at 10% 4%,
+      color-mix(in oklch, var(--chart-2) 6%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      55% 34% at 92% 18%,
+      color-mix(in oklch, var(--brand) 8%, transparent),
+      transparent 64%
+    ),
+    radial-gradient(
+      70% 40% at 46% 82%,
+      color-mix(in oklch, var(--chart-4) 5%, transparent),
+      transparent 66%
+    );
+}
+
 [data-theme-decoration="none"] {
   --theme-decoration: none;
   --theme-decoration-size: auto;

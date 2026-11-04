@@ -23,10 +23,10 @@ const sha256HexLength = 64
 var bundledFontFamilies = map[string]struct{}{
 	"Anton": {}, "Arial": {}, "Bebas Neue": {}, "Courier New": {},
 	"DM Sans Variable": {}, "Geist Mono Variable": {}, "Geist Variable": {}, "Georgia": {},
-	"Inter Tight Variable": {}, "Inter Variable": {}, "Manrope Variable": {},
+	"IBM Plex Mono": {}, "Inter Tight Variable": {}, "Inter Variable": {}, "Manrope Variable": {},
 	"Orbitron Variable": {}, "Playfair Display Variable": {}, "Roboto": {},
-	"Roboto Slab": {}, "SFMono-Regular": {}, "Source Serif 4 Variable": {},
-	"Space Grotesk Variable": {}, "Times New Roman": {}, "system-ui": {},
+	"Roboto Slab": {}, "SFMono-Regular": {}, "Saira Condensed": {}, "Saira Variable": {},
+	"Source Serif 4 Variable": {}, "Space Grotesk Variable": {}, "Times New Roman": {}, "system-ui": {},
 }
 
 type resourceRequirement struct {

@@ -136,6 +136,7 @@ const valueMessages = {
 	study: m.theme_value_study,
 	tactile: m.theme_value_tactile,
 	precision: m.theme_value_precision,
+	stage: m.theme_value_stage,
 	instant: m.theme_value_instant,
 	crossfade: m.theme_value_crossfade,
 	tonal: m.theme_value_tonal,

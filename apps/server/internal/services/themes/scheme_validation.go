@@ -236,7 +236,7 @@ func validateShell(input ThemeShellTokens) error {
 			return invalidManifest("shell."+dimension.path, fmt.Sprintf("must be between %.0fpx and %.0fpx", dimension.min, dimension.max))
 		}
 	}
-	if !slices.Contains([]string{"plain", "paper", "playful", "garden", "study", "tactile", "precision"}, input.CanvasTreatment) {
+	if !slices.Contains([]string{"plain", "paper", "playful", "garden", "study", "tactile", "precision", "stage"}, input.CanvasTreatment) {
 		return invalidManifest("shell.canvasTreatment", "is unsupported")
 	}
 	return nil

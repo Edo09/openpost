@@ -27,6 +27,7 @@ import { duolingoTheme } from "./builtins/duolingo.js";
 import { ditherTheme, ditherMossTheme } from "./builtins/dither.js";
 import { quizletTheme } from "./builtins/quizlet.js";
 import { calmTheme } from "./builtins/calm.js";
+import { robertoMusicTheme } from "./builtins/roberto-music.js";
 
 export const WORKSHOP_FALLBACK_THEME: ThemeManifest = workshopTheme;
 
@@ -55,6 +56,7 @@ export const BUILT_IN_THEMES: readonly ThemeManifest[] = [
   columnTheme,
   duolingoTheme,
   quizletTheme,
+  robertoMusicTheme,
   ditherTheme,
   ditherMossTheme,
   calmTheme,

@@ -95,6 +95,7 @@ export const NATIVE_CANVAS_TREATMENTS = [
   "study",
   "tactile",
   "precision",
+  "stage",
 ] as const;
 export type NativeCanvasTreatment = (typeof NATIVE_CANVAS_TREATMENTS)[number];
 

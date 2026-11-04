@@ -15,6 +15,9 @@ export const BUNDLED_THEME_FONT_IDS = [
   "bebas-neue",
   "roboto",
   "roboto-slab",
+  "saira",
+  "saira-condensed",
+  "ibm-plex-mono",
 ] as const;
 export type BundledThemeFontId = (typeof BUNDLED_THEME_FONT_IDS)[number];
 
@@ -139,6 +142,30 @@ export const BUNDLED_THEME_FONTS = {
     fallbacks: ["Georgia", "serif"],
     category: "serif",
     weights: [400, 500, 700],
+  },
+  saira: {
+    id: "saira",
+    label: "Saira",
+    family: "Saira Variable",
+    fallbacks: ["system-ui", "sans-serif"],
+    category: "sans-serif",
+    weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+  },
+  "saira-condensed": {
+    id: "saira-condensed",
+    label: "Saira Condensed",
+    family: "Saira Condensed",
+    fallbacks: ["Arial", "sans-serif"],
+    category: "display",
+    weights: [500, 600, 700, 800],
+  },
+  "ibm-plex-mono": {
+    id: "ibm-plex-mono",
+    label: "IBM Plex Mono",
+    family: "IBM Plex Mono",
+    fallbacks: ["ui-monospace", "SFMono-Regular", "monospace"],
+    category: "monospace",
+    weights: [400, 500, 600, 700],
   },
 } satisfies Record<BundledThemeFontId, BundledThemeFont>;
 
