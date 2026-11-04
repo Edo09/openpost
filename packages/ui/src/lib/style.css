@@ -102,6 +102,183 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* Canvas and decoration recipes only set variables. They stay outside the
+   component layer so they can override the unlayered defaults in tokens.css. */
+[data-theme-canvas="plain"] {
+  --theme-canvas-treatment: none;
+  --theme-canvas-size: auto;
+}
+
+[data-theme-canvas="paper"] {
+  --theme-canvas-treatment: linear-gradient(
+    180deg,
+    color-mix(in oklch, var(--background) 94%, var(--selection)) 0,
+    var(--background) 14rem
+  );
+  --theme-canvas-size: 100% 100%;
+}
+
+[data-theme-canvas="playful"] {
+  --theme-canvas-treatment:
+    radial-gradient(
+      circle at 6% 8%,
+      color-mix(in oklch, var(--selection) 34%, transparent) 0 5.5rem,
+      transparent 5.6rem
+    ),
+    radial-gradient(
+      circle at 94% 88%,
+      color-mix(in oklch, var(--info) 28%, transparent) 0 7rem,
+      transparent 7.1rem
+    );
+  --theme-canvas-size: 100% 100%;
+}
+
+[data-theme-canvas="garden"] {
+  --theme-canvas-treatment:
+    radial-gradient(
+      ellipse at 12% 0%,
+      color-mix(in oklch, var(--success) 22%, transparent),
+      transparent 36%
+    ),
+    radial-gradient(
+      ellipse at 100% 72%,
+      color-mix(in oklch, var(--selection) 22%, transparent),
+      transparent 34%
+    );
+  --theme-canvas-size: 100% 100%;
+}
+
+[data-theme-canvas="study"] {
+  --theme-canvas-treatment:
+    linear-gradient(
+      90deg,
+      transparent 0 3rem,
+      color-mix(in oklch, var(--link) 14%, transparent) 3rem 3.0625rem,
+      transparent 3.0625rem
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0 1.7rem,
+      color-mix(in oklch, var(--border) 42%, transparent) 1.7rem 1.75rem
+    );
+  --theme-canvas-size: 100% 100%;
+}
+
+[data-theme-canvas="tactile"] {
+  --theme-canvas-treatment:
+    radial-gradient(
+      circle at 30% 40%,
+      color-mix(in oklch, var(--foreground) 12%, transparent) 0 0.04rem,
+      transparent 0.055rem
+    ),
+    radial-gradient(
+      circle at 70% 65%,
+      color-mix(in oklch, var(--border) 30%, transparent) 0 0.045rem,
+      transparent 0.06rem
+    );
+  --theme-canvas-size: 0.8rem 0.8rem, 1.1rem 1.1rem;
+}
+
+[data-theme-canvas="precision"] {
+  --theme-canvas-treatment:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 1.95rem,
+      color-mix(in oklch, var(--border) 28%, transparent) 1.95rem 2rem
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0 1.95rem,
+      color-mix(in oklch, var(--border) 28%, transparent) 1.95rem 2rem
+    );
+  --theme-canvas-size: auto;
+}
+
+[data-theme-decoration="none"] {
+  --theme-decoration: none;
+  --theme-decoration-size: auto;
+}
+
+[data-theme-decoration="editorial"] {
+  --theme-decoration: linear-gradient(
+    180deg,
+    transparent calc(100% - 0.125rem),
+    color-mix(in oklch, var(--link) 50%, transparent) calc(100% - 0.125rem)
+  );
+  --theme-decoration-size: 100% 100%;
+}
+
+[data-theme-decoration="playful"] {
+  --theme-decoration:
+    radial-gradient(
+      circle at 14% 16%,
+      color-mix(in oklch, var(--selection) 52%, transparent) 0 1.5rem,
+      transparent 1.55rem
+    ),
+    radial-gradient(
+      circle at 88% 76%,
+      color-mix(in oklch, var(--warning) 42%, transparent) 0 1rem,
+      transparent 1.05rem
+    );
+  --theme-decoration-size: 100% 100%;
+}
+
+[data-theme-decoration="botanical"] {
+  --theme-decoration:
+    radial-gradient(
+      ellipse at 0% 100%,
+      color-mix(in oklch, var(--success) 30%, transparent),
+      transparent 42%
+    ),
+    radial-gradient(
+      ellipse at 100% 0%,
+      color-mix(in oklch, var(--selection) 22%, transparent),
+      transparent 38%
+    );
+  --theme-decoration-size: 100% 100%;
+}
+
+[data-theme-decoration="study"] {
+  --theme-decoration: repeating-linear-gradient(
+    180deg,
+    transparent 0 1.45rem,
+    color-mix(in oklch, var(--border) 48%, transparent) 1.45rem 1.5rem
+  );
+  --theme-decoration-size: auto;
+}
+
+[data-theme-decoration="tactile"] {
+  --theme-decoration:
+    radial-gradient(
+      circle at 50% 0.75rem,
+      color-mix(in oklch, var(--action-focal) 70%, var(--foreground)) 0 0.18rem,
+      color-mix(in oklch, var(--action-focal) 25%, transparent) 0.2rem,
+      transparent 0.35rem
+    ),
+    linear-gradient(
+      180deg,
+      transparent 0 2.4rem,
+      color-mix(in oklch, var(--border) 52%, transparent) 2.4rem 2.45rem,
+      transparent 2.45rem
+    );
+  --theme-decoration-size: 100% 100%;
+}
+
+[data-theme-decoration="precision"] {
+  --theme-decoration:
+    linear-gradient(
+      90deg,
+      color-mix(in oklch, var(--action-focal) 48%, transparent) 0 0.125rem,
+      transparent 0.125rem
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0 1.95rem,
+      color-mix(in oklch, var(--border) 32%, transparent) 1.95rem 2rem
+    );
+  --theme-decoration-size: 100% 100%;
+}
+
 @layer base {
   :root {
     --app-text-xs: 0.8125rem;
@@ -267,187 +444,12 @@
     outline-offset: 2px;
   }
 
-  [data-theme-canvas="plain"] {
-    --theme-canvas-treatment: none;
-    --theme-canvas-size: auto;
-  }
-
-  [data-theme-canvas="paper"] {
-    --theme-canvas-treatment: linear-gradient(
-      180deg,
-      color-mix(in oklch, var(--background) 94%, var(--selection)) 0,
-      var(--background) 14rem
-    );
-    --theme-canvas-size: 100% 100%;
-  }
-
-  [data-theme-canvas="playful"] {
-    --theme-canvas-treatment:
-      radial-gradient(
-        circle at 6% 8%,
-        color-mix(in oklch, var(--selection) 34%, transparent) 0 5.5rem,
-        transparent 5.6rem
-      ),
-      radial-gradient(
-        circle at 94% 88%,
-        color-mix(in oklch, var(--info) 28%, transparent) 0 7rem,
-        transparent 7.1rem
-      );
-    --theme-canvas-size: 100% 100%;
-  }
-
-  [data-theme-canvas="garden"] {
-    --theme-canvas-treatment:
-      radial-gradient(
-        ellipse at 12% 0%,
-        color-mix(in oklch, var(--success) 22%, transparent),
-        transparent 36%
-      ),
-      radial-gradient(
-        ellipse at 100% 72%,
-        color-mix(in oklch, var(--selection) 22%, transparent),
-        transparent 34%
-      );
-    --theme-canvas-size: 100% 100%;
-  }
-
-  [data-theme-canvas="study"] {
-    --theme-canvas-treatment:
-      linear-gradient(
-        90deg,
-        transparent 0 3rem,
-        color-mix(in oklch, var(--link) 14%, transparent) 3rem 3.0625rem,
-        transparent 3.0625rem
-      ),
-      repeating-linear-gradient(
-        180deg,
-        transparent 0 1.7rem,
-        color-mix(in oklch, var(--border) 42%, transparent) 1.7rem 1.75rem
-      );
-    --theme-canvas-size: 100% 100%;
-  }
-
-  [data-theme-canvas="tactile"] {
-    --theme-canvas-treatment:
-      radial-gradient(
-        circle at 30% 40%,
-        color-mix(in oklch, var(--foreground) 12%, transparent) 0 0.04rem,
-        transparent 0.055rem
-      ),
-      radial-gradient(
-        circle at 70% 65%,
-        color-mix(in oklch, var(--border) 30%, transparent) 0 0.045rem,
-        transparent 0.06rem
-      );
-    --theme-canvas-size: 0.8rem 0.8rem, 1.1rem 1.1rem;
-  }
-
-  [data-theme-canvas="precision"] {
-    --theme-canvas-treatment:
-      repeating-linear-gradient(
-        90deg,
-        transparent 0 1.95rem,
-        color-mix(in oklch, var(--border) 28%, transparent) 1.95rem 2rem
-      ),
-      repeating-linear-gradient(
-        180deg,
-        transparent 0 1.95rem,
-        color-mix(in oklch, var(--border) 28%, transparent) 1.95rem 2rem
-      );
-    --theme-canvas-size: auto;
-  }
-
   [data-theme-canvas] body,
   [data-theme-canvas][data-theme-scope="preview"],
   [data-theme-canvas] [data-theme-canvas-surface] {
     background-image: var(--theme-asset-background-texture), var(--theme-canvas-treatment);
     background-repeat: repeat;
     background-size: auto, var(--theme-canvas-size);
-  }
-
-  [data-theme-decoration="none"] {
-    --theme-decoration: none;
-    --theme-decoration-size: auto;
-  }
-
-  [data-theme-decoration="editorial"] {
-    --theme-decoration: linear-gradient(
-      180deg,
-      transparent calc(100% - 0.125rem),
-      color-mix(in oklch, var(--link) 50%, transparent) calc(100% - 0.125rem)
-    );
-    --theme-decoration-size: 100% 100%;
-  }
-
-  [data-theme-decoration="playful"] {
-    --theme-decoration:
-      radial-gradient(
-        circle at 14% 16%,
-        color-mix(in oklch, var(--selection) 52%, transparent) 0 1.5rem,
-        transparent 1.55rem
-      ),
-      radial-gradient(
-        circle at 88% 76%,
-        color-mix(in oklch, var(--warning) 42%, transparent) 0 1rem,
-        transparent 1.05rem
-      );
-    --theme-decoration-size: 100% 100%;
-  }
-
-  [data-theme-decoration="botanical"] {
-    --theme-decoration:
-      radial-gradient(
-        ellipse at 0% 100%,
-        color-mix(in oklch, var(--success) 30%, transparent),
-        transparent 42%
-      ),
-      radial-gradient(
-        ellipse at 100% 0%,
-        color-mix(in oklch, var(--selection) 22%, transparent),
-        transparent 38%
-      );
-    --theme-decoration-size: 100% 100%;
-  }
-
-  [data-theme-decoration="study"] {
-    --theme-decoration: repeating-linear-gradient(
-      180deg,
-      transparent 0 1.45rem,
-      color-mix(in oklch, var(--border) 48%, transparent) 1.45rem 1.5rem
-    );
-    --theme-decoration-size: auto;
-  }
-
-  [data-theme-decoration="tactile"] {
-    --theme-decoration:
-      radial-gradient(
-        circle at 50% 0.75rem,
-        color-mix(in oklch, var(--action-focal) 70%, var(--foreground)) 0 0.18rem,
-        color-mix(in oklch, var(--action-focal) 25%, transparent) 0.2rem,
-        transparent 0.35rem
-      ),
-      linear-gradient(
-        180deg,
-        transparent 0 2.4rem,
-        color-mix(in oklch, var(--border) 52%, transparent) 2.4rem 2.45rem,
-        transparent 2.45rem
-      );
-    --theme-decoration-size: 100% 100%;
-  }
-
-  [data-theme-decoration="precision"] {
-    --theme-decoration:
-      linear-gradient(
-        90deg,
-        color-mix(in oklch, var(--action-focal) 48%, transparent) 0 0.125rem,
-        transparent 0.125rem
-      ),
-      repeating-linear-gradient(
-        180deg,
-        transparent 0 1.95rem,
-        color-mix(in oklch, var(--border) 32%, transparent) 1.95rem 2rem
-      );
-    --theme-decoration-size: 100% 100%;
   }
 
   [data-theme-button="solid"] [data-slot="button"][data-action-intent="focal"] {
