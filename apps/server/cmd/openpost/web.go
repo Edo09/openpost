@@ -36,6 +36,7 @@ func registerSpaRoutesFromFS(
 	publicURL string,
 	managedEdition bool,
 	publicProfilesEnabled bool,
+	defaultLocale string,
 ) {
 	// Keep package tests independent of generated frontend output while still
 	// failing immediately when the application starts without frontend assets.
@@ -49,7 +50,8 @@ func registerSpaRoutesFromFS(
 		panic("openpost: frontend application route manifest is missing or invalid. " +
 			"Run the frontend build first: `bun run build -- frontend`: " + err.Error())
 	}
-	registerSpaRoutesWithProfileMetadataAndMatcher(e, webFS, db, publicURL, managedEdition, publicProfilesEnabled, routes)
+	document := spaDocument{managedEdition: managedEdition, defaultLocale: defaultLocale}
+	registerSpaRoutesWithProfileMetadataAndMatcher(e, webFS, db, publicURL, document, publicProfilesEnabled, routes)
 }
 
 const spaRouteManifestPath = "app-routes.json"
@@ -192,14 +194,28 @@ type publicProfilePageMetadata struct {
 	AvatarURL   string
 }
 
-func writeHTMLResponse(c echo.Context, data []byte, managedEdition bool) error {
-	return writeHTMLStatusResponse(c, data, managedEdition, http.StatusOK, false)
+// spaDocument holds the instance details rendered into every application HTML
+// document, whichever route serves it.
+type spaDocument struct {
+	managedEdition bool
+	// defaultLocale is OPENPOST_DEFAULT_LOCALE, already normalized by the
+	// config loader. Empty leaves the browser language in charge.
+	defaultLocale string
 }
 
-func writeHTMLStatusResponse(c echo.Context, data []byte, managedEdition bool, status int, indexable bool) error {
-	if managedEdition {
-		data = renderManagedEditionMetadata(data, normalizedRequestPath(c.Request().URL))
+func (d spaDocument) render(data []byte, requestPath string) []byte {
+	if d.managedEdition {
+		data = renderManagedEditionMetadata(data, requestPath)
 	}
+	return renderDefaultLocaleMetadata(data, d.defaultLocale)
+}
+
+func writeHTMLResponse(c echo.Context, data []byte, document spaDocument) error {
+	return writeHTMLStatusResponse(c, data, document, http.StatusOK, false)
+}
+
+func writeHTMLStatusResponse(c echo.Context, data []byte, document spaDocument, status int, indexable bool) error {
+	data = document.render(data, normalizedRequestPath(c.Request().URL))
 	data, contentEncoding, err := compressHTML(data, c.Request().Header.Get("Accept-Encoding"))
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, "failed to compress application HTML")
@@ -260,12 +276,12 @@ func registerSpaRoutesWithProfileMetadataAndMatcher(
 	webFS fs.FS,
 	db *bun.DB,
 	publicURL string,
-	managedEdition bool,
+	document spaDocument,
 	publicProfilesEnabled bool,
 	routes spaRouteMatcher,
 ) {
 	writeHTML := func(c echo.Context, data []byte, status int, indexable bool) error {
-		return writeHTMLStatusResponse(c, data, managedEdition, status, indexable)
+		return writeHTMLStatusResponse(c, data, document, status, indexable)
 	}
 
 	publicProfileHandler := func(c echo.Context) error {
@@ -285,19 +301,19 @@ func registerSpaRoutesWithProfileMetadataAndMatcher(
 	e.Match([]string{http.MethodGet, http.MethodHead}, "/u/:username", publicProfileHandler)
 
 	handler := spaRequestHandler{
-		webFS:          webFS,
-		publicURL:      publicURL,
-		managedEdition: managedEdition,
-		routes:         routes,
+		webFS:     webFS,
+		publicURL: publicURL,
+		document:  document,
+		routes:    routes,
 	}
 	e.Match([]string{http.MethodGet, http.MethodHead}, "/*", handler.serve)
 }
 
 type spaRequestHandler struct {
-	webFS          fs.FS
-	publicURL      string
-	managedEdition bool
-	routes         spaRouteMatcher
+	webFS     fs.FS
+	publicURL string
+	document  spaDocument
+	routes    spaRouteMatcher
 }
 
 func (h spaRequestHandler) serve(c echo.Context) error {
@@ -312,7 +328,7 @@ func (h spaRequestHandler) serve(c echo.Context) error {
 	}
 	if relPath == "" {
 		indexData, _ := fs.ReadFile(h.webFS, "index.html")
-		return writeHTMLStatusResponse(c, indexData, h.managedEdition, http.StatusOK, h.managedEdition)
+		return writeHTMLStatusResponse(c, indexData, h.document, http.StatusOK, h.document.managedEdition)
 	}
 	if path.Ext(relPath) == ".html" {
 		if data, err := fs.ReadFile(h.webFS, relPath); err == nil {
@@ -357,7 +373,7 @@ func (h spaRequestHandler) serveExistingPath(
 }
 
 func (h spaRequestHandler) writeHTML(c echo.Context, data []byte) error {
-	return writeHTMLResponse(c, data, h.managedEdition)
+	return writeHTMLResponse(c, data, h.document)
 }
 
 func (h spaRequestHandler) writeFallback(c echo.Context, requestPath string) error {
@@ -366,7 +382,7 @@ func (h spaRequestHandler) writeFallback(c echo.Context, requestPath string) err
 	if h.routes.matches(requestPath) {
 		status = http.StatusOK
 	}
-	return writeHTMLStatusResponse(c, indexData, h.managedEdition, status, false)
+	return writeHTMLStatusResponse(c, indexData, h.document, status, false)
 }
 
 func normalizedRequestPath(requestURL *url.URL) string {
@@ -482,6 +498,20 @@ func renderManagedEditionMetadata(indexData []byte, requestPath string) []byte {
 		return []byte(htmlDocument)
 	}
 	return []byte(strings.Replace(htmlDocument, "</body>", managedEditionReviewFallback()+"\n</body>", 1))
+}
+
+// defaultLocaleMetaName must match the selector of the custom-instanceDefault
+// Paraglide strategy in apps/web/src/lib/instance-locale.ts.
+const defaultLocaleMetaName = "openpost-default-locale"
+
+func renderDefaultLocaleMetadata(indexData []byte, locale string) []byte {
+	htmlDocument := string(indexData)
+	if locale == "" || !strings.Contains(htmlDocument, "<head>") ||
+		strings.Contains(htmlDocument, `name="`+defaultLocaleMetaName+`"`) {
+		return indexData
+	}
+	meta := `<meta name="` + defaultLocaleMetaName + `" content="` + html.EscapeString(locale) + `">`
+	return []byte(strings.Replace(htmlDocument, "<head>", "<head>\n\t\t"+meta, 1))
 }
 
 func loadPublicProfilePageMetadata(ctx context.Context, db *bun.DB, requestedUsername string) (publicProfilePageMetadata, bool, error) {

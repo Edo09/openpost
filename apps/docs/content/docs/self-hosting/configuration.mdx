@@ -51,6 +51,12 @@ execute surface, or `OPENPOST_MCP_MODE=both` to advertise both surfaces. The
 separate `/mcp/code` endpoint is always compact and needs no environment change.
 See [MCP endpoints and tools](/mcp/mcp-guide#choose-an-endpoint) before changing the default.
 
+## Default language
+
+Set `OPENPOST_DEFAULT_LOCALE` to choose the interface language for people who have not picked one, for example `OPENPOST_DEFAULT_LOCALE=es`. Supported values are `en`, `es`, `fr`, `de`, `it`, `ru`, `pt`, `pt-BR`, `tr`, `ja`, `ko`, and `zh`. Leave it unset to follow each browser's language. Administrators can also change it in **Settings → Instance → Configuration**, which applies after a restart.
+
+A language someone picks in OpenPost always wins. Each browser also keeps the language it first opened OpenPost in, so a new default reaches browsers that have not visited the instance yet.
+
 ## Useful controls
 
 Set up [email](/self-hosting/email) before enabling `OPENPOST_EMAIL_VERIFICATION_REQUIRED=true`. Add `OPENPOST_EXTRA_CORS_ORIGINS` only for other origins that need browser API access. Same-origin use needs no entry.

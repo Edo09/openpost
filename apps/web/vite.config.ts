@@ -27,7 +27,13 @@ import { devProxy } from './dev-proxy.ts';
 const rawParaglidePlugin = paraglideVitePlugin({
 	project: './project.inlang',
 	outdir: './src/lib/paraglide',
-	strategy: ['cookie', 'globalVariable', 'preferredLanguage', 'baseLocale'],
+	strategy: [
+		'cookie',
+		'globalVariable',
+		'custom-instanceDefault',
+		'preferredLanguage',
+		'baseLocale'
+	],
 	outputStructure: 'locale-modules',
 	isServer: "import.meta.env?.SSR ?? typeof window === 'undefined'",
 	emitTsDeclarations: false

@@ -1,4 +1,7 @@
 /* oxlint-disable anti-slop/no-unknown-parameters, anti-slop/no-runtime-typeof -- SvelteKit delivers untyped errors to this boundary; the helpers below narrow them before use. */
+// First import: the instance default language strategy must exist before
+// anything resolves the locale.
+import '$lib/instance-locale';
 import { captureXMessagingCallback } from '$lib/auth/x-messaging';
 import type { HandleClientError } from '@sveltejs/kit';
 import { installMaintainerDiagnosticsCapture } from '$lib/diagnostics-report';

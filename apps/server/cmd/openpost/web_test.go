@@ -12,6 +12,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"strconv"
+	"strings"
 	"testing"
 	"testing/fstest"
 	"time"
@@ -39,7 +40,8 @@ func registerSpaRoutesWithProfileMetadata(
 	publicProfilesEnabled bool,
 ) {
 	routes, _ := loadSpaRouteManifest(webFS)
-	registerSpaRoutesWithProfileMetadataAndMatcher(e, webFS, db, publicURL, managedEdition, publicProfilesEnabled, routes)
+	document := spaDocument{managedEdition: managedEdition}
+	registerSpaRoutesWithProfileMetadataAndMatcher(e, webFS, db, publicURL, document, publicProfilesEnabled, routes)
 }
 
 func withAppRoutes(webFS fstest.MapFS, routes ...string) fstest.MapFS {
@@ -305,7 +307,7 @@ func TestSpaStartupRejectsMissingOrMalformedRouteManifest(t *testing.T) {
 				defer func() {
 					recovered = recover()
 				}()
-				registerSpaRoutesFromFS(echo.New(), test.files, nil, "", false, true)
+				registerSpaRoutesFromFS(echo.New(), test.files, nil, "", false, true, "")
 			}()
 			require.NotNil(t, recovered)
 			require.Contains(t, fmt.Sprint(recovered), "route manifest is missing or invalid")
@@ -408,6 +410,44 @@ func TestManagedAndSelfHostedSpaRoot(t *testing.T) {
 	selfHosted.ServeHTTP(selfRec, httptest.NewRequestWithContext(context.Background(), http.MethodGet, "/", nil))
 	require.Equal(t, http.StatusOK, selfRec.Code)
 	require.NotContains(t, selfRec.Body.String(), `name="openpost-edition"`)
+}
+
+func TestSpaDocumentsCarryInstanceDefaultLocale(t *testing.T) {
+	webFS := withAppRoutes(fstest.MapFS{
+		"index.html":   {Data: []byte(`<html><head></head><body>app</body></html>`)},
+		"offline.html": {Data: []byte(`<html><head></head><body>offline</body></html>`)},
+	}, "/", "/settings")
+	routes, err := loadSpaRouteManifest(webFS)
+	require.NoError(t, err)
+	const meta = `<meta name="openpost-default-locale" content="es">`
+
+	e := echo.New()
+	document := spaDocument{managedEdition: true, defaultLocale: "es"}
+	registerSpaRoutesWithProfileMetadataAndMatcher(e, webFS, nil, "", document, true, routes)
+	for _, target := range []string{"/", "/settings", "/missing", "/offline.html", "/u/person"} {
+		rec := httptest.NewRecorder()
+		e.ServeHTTP(rec, httptest.NewRequestWithContext(t.Context(), http.MethodGet, target, nil))
+		body := rec.Body.String()
+		require.Equal(t, 1, strings.Count(body, meta), target)
+		require.Contains(t, body, `name="openpost-edition" content="cloud"`, target)
+	}
+
+	selfHosted := echo.New()
+	registerSpaRoutes(selfHosted, webFS)
+	rec := httptest.NewRecorder()
+	selfHosted.ServeHTTP(rec, httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/", nil))
+	require.NotContains(t, rec.Body.String(), "openpost-default-locale")
+}
+
+func TestRenderDefaultLocaleMetadata(t *testing.T) {
+	t.Parallel()
+
+	document := []byte("<html><head></head><body>app</body></html>")
+	rendered := renderDefaultLocaleMetadata(document, "pt-BR")
+	require.Contains(t, string(rendered), "<head>\n\t\t"+`<meta name="openpost-default-locale" content="pt-BR">`)
+	require.Equal(t, rendered, renderDefaultLocaleMetadata(rendered, "pt-BR"), "renders the tag once")
+	require.Equal(t, document, renderDefaultLocaleMetadata(document, ""))
+	require.Contains(t, string(renderDefaultLocaleMetadata(document, `"><script>`)), `content="&#34;&gt;&lt;script&gt;"`)
 }
 
 func TestPublicProfileHTML(t *testing.T) {

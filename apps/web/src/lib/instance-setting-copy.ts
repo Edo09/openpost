@@ -20,6 +20,11 @@ const portugueseCopyDefinitions = {
 		description:
 			'Impede novos registos por palavra-passe e fornecedor de identidade sem afetar utilizadores existentes.'
 	},
+	OPENPOST_DEFAULT_LOCALE: {
+		label: 'Idioma predefinido',
+		description:
+			'Idioma da interface nos navegadores que ainda não guardaram um idioma. A escolha de cada pessoa no OpenPost prevalece sempre.'
+	},
 	OPENPOST_LEGAL_ACCEPTANCE_REQUIRED: {
 		label: 'Exigir aceitação legal',
 		description:
@@ -257,6 +262,7 @@ const portugueseCopyDefinitions = {
 const portugueseCopy = new Map(Object.entries(portugueseCopyDefinitions));
 
 const portugueseOptionDefinitions = {
+	'OPENPOST_DEFAULT_LOCALE:': 'Idioma do navegador',
 	'OPENPOST_EMAIL_PROVIDER:': 'Não configurado',
 	'OPENPOST_EMAIL_PROVIDER:smtp': 'SMTP',
 	'OPENPOST_EMAIL_PROVIDER:resend': 'Resend',

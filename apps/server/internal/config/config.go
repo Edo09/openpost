@@ -51,6 +51,7 @@ type Config struct {
 	OAuthDCR                 bool
 	MCPMode                  string
 	PublicProfilesEnabled    bool
+	DefaultLocale            string
 	FrontendURL              string
 	PublicURL                string
 	CORSOrigins              []string
@@ -258,6 +259,7 @@ func Load() *Config {
 		OAuthDCR:                getEnvBoolWithAliases(false, "OPENPOST_OAUTH_DYNAMIC_REGISTRATION_ENABLED"),
 		MCPMode:                 getEnvEnum("OPENPOST_MCP_MODE", MCPModeDirect, MCPModeDirect, MCPModeSearch, MCPModeBoth),
 		PublicProfilesEnabled:   getEnvBoolWithAliases(true, "OPENPOST_PUBLIC_PROFILES_ENABLED"),
+		DefaultLocale:           getEnvLocale("OPENPOST_DEFAULT_LOCALE"),
 		FrontendURL:             frontendURL,
 		PublicURL:               getEnvWithFallbacks("OPENPOST_PUBLIC_URL", "", "OPENPOST_APP_URL", "OPENPOST_FRONTEND_URL"),
 		LegalAcceptanceRequired: getEnvBoolWithAliases(legalRequired, "OPENPOST_LEGAL_ACCEPTANCE_REQUIRED"),

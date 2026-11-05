@@ -47,6 +47,7 @@ var managedSettingDefinitions = []ManagedSettingDefinition{
 	{Key: "OPENPOST_DISABLE_REGISTRATIONS", Group: "accounts", Label: "Disable new registrations", Description: "Stop new password and identity-provider registrations without affecting existing users.", Kind: ManagedSettingBoolean, EnvVars: []string{"OPENPOST_DISABLE_REGISTRATIONS"}},
 	{Key: "OPENPOST_OAUTH_DYNAMIC_REGISTRATION_ENABLED", Group: "authentication", Label: "OAuth dynamic client registration", Description: "Allow external applications to register OAuth clients without operator approval.", Kind: ManagedSettingBoolean, EnvVars: []string{"OPENPOST_OAUTH_DYNAMIC_REGISTRATION_ENABLED"}},
 	{Key: "OPENPOST_PUBLIC_PROFILES_ENABLED", Group: "accounts", Label: "Public profiles", Description: "Allow users to publish username-based profiles with per-field visibility controls.", Kind: ManagedSettingBoolean, EnvVars: []string{"OPENPOST_PUBLIC_PROFILES_ENABLED"}},
+	{Key: "OPENPOST_DEFAULT_LOCALE", Group: "accounts", Label: "Default language", Description: "Interface language for browsers that have not stored a language yet. A person's own choice in OpenPost always wins.", Kind: ManagedSettingEnum, Optional: true, EnvVars: []string{"OPENPOST_DEFAULT_LOCALE"}, Options: defaultLocaleOptions()},
 	{Key: "OPENPOST_LEGAL_ACCEPTANCE_REQUIRED", Group: "accounts", Label: "Require legal acceptance", Description: "Require users to accept the configured terms and privacy policy versions.", Kind: ManagedSettingBoolean, EnvVars: []string{"OPENPOST_LEGAL_ACCEPTANCE_REQUIRED"}},
 	{Key: "OPENPOST_TERMS_URL", Group: "accounts", Label: "Terms URL", Description: "Public URL for the terms of service.", Kind: ManagedSettingURL, Optional: true, EnvVars: []string{"OPENPOST_TERMS_URL"}},
 	{Key: "OPENPOST_PRIVACY_URL", Group: "accounts", Label: "Privacy URL", Description: "Public URL for the privacy policy.", Kind: ManagedSettingURL, Optional: true, EnvVars: []string{"OPENPOST_PRIVACY_URL"}},
@@ -208,6 +209,7 @@ var managedSettingBindings = map[string]managedSettingBinding{
 	"OPENPOST_DISABLE_REGISTRATIONS":                boolBinding(func(c *Config) *bool { return &c.DisableRegistrations }),
 	"OPENPOST_OAUTH_DYNAMIC_REGISTRATION_ENABLED":   boolBinding(func(c *Config) *bool { return &c.OAuthDCR }),
 	"OPENPOST_PUBLIC_PROFILES_ENABLED":              boolBinding(func(c *Config) *bool { return &c.PublicProfilesEnabled }),
+	"OPENPOST_DEFAULT_LOCALE":                       stringBinding(func(c *Config) *string { return &c.DefaultLocale }),
 	"OPENPOST_LEGAL_ACCEPTANCE_REQUIRED":            boolBinding(func(c *Config) *bool { return &c.LegalAcceptanceRequired }),
 	"OPENPOST_TERMS_URL":                            stringBinding(func(c *Config) *string { return &c.TermsURL }),
 	"OPENPOST_PRIVACY_URL":                          stringBinding(func(c *Config) *string { return &c.PrivacyURL }),
@@ -318,10 +320,11 @@ var managedSettingValidators = map[ManagedSettingKind]managedSettingValidator{
 		return strconv.FormatInt(parsed, 10), nil
 	},
 	ManagedSettingEnum: func(definition ManagedSettingDefinition, value string) (string, error) {
-		value = strings.ToLower(value)
+		// Match without regard to case and store the option's own spelling,
+		// which keeps mixed-case values such as the pt-BR locale intact.
 		for _, option := range definition.Options {
-			if option.Value == value {
-				return value, nil
+			if strings.EqualFold(option.Value, value) {
+				return option.Value, nil
 			}
 		}
 		return "", fmt.Errorf("must be one of the supported values")

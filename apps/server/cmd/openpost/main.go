@@ -1105,7 +1105,7 @@ func main() {
 	})
 	apiroutes.FinalizeOpenAPIContract(api)
 
-	RegisterSpaRoutes(e, db, cfg.PublicURL, cfg.Edition == config.EditionCloud, cfg.PublicProfilesEnabled)
+	RegisterSpaRoutes(e, db, cfg.PublicURL, cfg.Edition == config.EditionCloud, cfg.PublicProfilesEnabled, cfg.DefaultLocale)
 
 	workerCtx, cancelWorker := context.WithCancel(context.Background())
 	defer cancelWorker()
