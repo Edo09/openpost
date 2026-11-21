@@ -48,6 +48,7 @@ describe('primary application navigation', () => {
 			'settings'
 		]);
 		expect(isSimpleNavigationRoute('/')).toBe(true);
+		expect(isSimpleNavigationRoute('/publish-video')).toBe(true);
 		expect(isSimpleNavigationRoute('/calendar')).toBe(true);
 		expect(isSimpleNavigationRoute('/publications/pub-123')).toBe(true);
 		expect(isSimpleNavigationRoute('/inbox/engagement')).toBe(false);

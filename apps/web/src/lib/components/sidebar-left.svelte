@@ -163,6 +163,8 @@
 
 	function handleNewPostClick(event: MouseEvent) {
 		sidebar.setOpenMobile(false);
+		// Simple mode opens the video publisher, which has no composer draft to reset.
+		if (interfaceMode.simple) return;
 		if (!ui.startNewPost() || currentPath === '/') event.preventDefault();
 	}
 
@@ -247,16 +249,18 @@
 
 		{#if workspaceCtx.currentWorkspace?.can_edit}
 			<Button
-				href={resolve('/')}
+				href={interfaceMode.simple ? resolve('/publish-video') : resolve('/')}
 				variant="focal"
 				size="sm"
 				class="w-full gap-2 group-data-[collapsible=icon]:px-0"
-				aria-label={m.sidebar_new_post()}
+				aria-label={interfaceMode.simple ? m.simple_publish_nav() : m.sidebar_new_post()}
 				data-testid="sidebar-new-post"
 				onclick={handleNewPostClick}
 			>
-				<ThemeIcon role="compose" class="size-4" />
-				{#if sidebar.state !== 'collapsed'}<span>{m.sidebar_new_post()}</span>{/if}
+				<ThemeIcon role={interfaceMode.simple ? 'video' : 'compose'} class="size-4" />
+				{#if sidebar.state !== 'collapsed'}<span
+						>{interfaceMode.simple ? m.simple_publish_nav() : m.sidebar_new_post()}</span
+					>{/if}
 			</Button>
 		{/if}
 	</Sidebar.Header>

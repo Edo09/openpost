@@ -3,6 +3,7 @@
 	import { ideate } from '$lib/post-builder/ideate.svelte';
 	import { m } from '$lib/paraglide/messages';
 	import { ThemeIcon } from '$lib/themes/icons';
+	import { Button } from '$lib/components/ui/button';
 	import { interfaceMode } from '$lib/stores/interface-mode.svelte';
 
 	interface Props {
@@ -12,8 +13,12 @@
 	let { canEdit = false }: Props = $props();
 </script>
 
-<!-- Ideas and Studio belong to the full interface. -->
-{#if canEdit && !interfaceMode.simple}
+<!-- Simple mode leads with publishing a video; Ideas and Studio belong to the full interface. -->
+{#if canEdit && interfaceMode.simple}
+	<Button size="lg" href={resolveAppPath('/publish-video')} data-testid="home-publish-video">
+		<ThemeIcon role="video" class="size-4" />{m.simple_publish_title()}
+	</Button>
+{:else if canEdit}
 	<ul class="grid gap-3 sm:grid-cols-2" data-testid="home-quick-actions">
 		<li>
 			<button type="button" class="action" onclick={() => ideate.show()}>

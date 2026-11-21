@@ -77,6 +77,10 @@
 	const moreActive = $derived(isMoreNavigationRoute(pathname));
 
 	function navigate(item: (typeof items)[number]) {
+		if (item.id === 'new' && interfaceMode.simple) {
+			goto(resolveAppPath('/publish-video'));
+			return;
+		}
 		if (item.id === 'new') {
 			if (!ui.startNewPost()) return;
 			if (pathname === '/') return;

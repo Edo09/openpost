@@ -34,7 +34,7 @@ export type AppRouteFamily =
 
 export const appRouteFamilies = {
 	home: ['/home'],
-	root: ['/'],
+	root: ['/', '/publish-video'],
 	publications: ['/publications', '/calendar'],
 	communications: ['/inbox', '/grow'],
 	growth: ['/grow'],
