@@ -44,6 +44,7 @@
 	import { onDestroy, onMount, tick } from 'svelte';
 	import PublicationReviewControl from '$lib/components/publication-review-control.svelte';
 	import { ideate } from '$lib/post-builder/ideate.svelte';
+	import { interfaceMode } from '$lib/stores/interface-mode.svelte';
 	import { z } from 'zod';
 	import { captureTelemetryEvent } from '@openpost/telemetry';
 	import { page } from '$app/stores';
@@ -8399,7 +8400,7 @@
 												>
 													<ThemeIcon role="image" class="h-3.5 w-3.5" />
 												</button>
-												{#if !post.poll}
+												{#if !post.poll && !interfaceMode.simple}
 													<button
 														type="button"
 														class="flex size-11 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-50 md:size-7"
@@ -8420,15 +8421,17 @@
 													limits={editorPlatformLimits}
 												/>
 
-												<button
-													type="button"
-													class="-mx-2 flex min-h-11 items-center gap-1.5 px-2 text-xs whitespace-nowrap text-muted-foreground transition-colors hover:text-foreground md:mx-0 md:min-h-7 md:px-0"
-													onclick={addPost}
-												>
-													<ThemeIcon role="add" class="h-3 w-3" />{m.compose_add_post()}
-												</button>
+												{#if !interfaceMode.simple}
+													<button
+														type="button"
+														class="-mx-2 flex min-h-11 items-center gap-1.5 px-2 text-xs whitespace-nowrap text-muted-foreground transition-colors hover:text-foreground md:mx-0 md:min-h-7 md:px-0"
+														onclick={addPost}
+													>
+														<ThemeIcon role="add" class="h-3 w-3" />{m.compose_add_post()}
+													</button>
+												{/if}
 
-												{#if i === 0 && !activeVariantAccountId && !isThread}
+												{#if i === 0 && !activeVariantAccountId && !isThread && !interfaceMode.simple}
 													<ComposerAIActionButton
 														hasText={Boolean(posts[0]?.content.trim())}
 														building={buildingPost}

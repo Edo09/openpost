@@ -8977,6 +8977,8 @@
 	"editor_start_workspace_image_description": "从空白画布开始或选择模板。",
 	"personal_sidebar_calendar": "侧边栏日历",
 	"personal_preferences": "偏好设置",
+	"interface_mode_show_all_features": "显示全部功能",
+	"interface_mode_show_simple_view": "显示简洁视图",
 	"personal_usage_data": "使用数据共享",
 	"personal_help_feedback": "帮助与反馈",
 	"navigation_connected_accounts": "已连接的账户",

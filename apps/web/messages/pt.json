@@ -8977,6 +8977,8 @@
 	"editor_start_workspace_image_description": "Começa com uma tela em branco ou escolhe um modelo.",
 	"personal_sidebar_calendar": "Calendário na barra lateral",
 	"personal_preferences": "Preferências",
+	"interface_mode_show_all_features": "Mostrar todas as funcionalidades",
+	"interface_mode_show_simple_view": "Mostrar vista simples",
 	"personal_usage_data": "Partilha de dados de utilização",
 	"personal_help_feedback": "Ajuda e sugestões",
 	"navigation_connected_accounts": "Contas ligadas",

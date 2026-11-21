@@ -8977,6 +8977,8 @@
 	"editor_start_workspace_image_description": "空白のキャンバスから始めるか、テンプレートを選びましょう。",
 	"personal_sidebar_calendar": "サイドバーのカレンダー",
 	"personal_preferences": "環境設定",
+	"interface_mode_show_all_features": "すべての機能を表示",
+	"interface_mode_show_simple_view": "シンプル表示に切り替え",
 	"personal_usage_data": "利用データの共有",
 	"personal_help_feedback": "ヘルプとフィードバック",
 	"navigation_connected_accounts": "接続済みアカウント",

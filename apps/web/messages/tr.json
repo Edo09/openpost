@@ -8977,6 +8977,8 @@
 	"editor_start_workspace_image_description": "Boş bir tuvalle başlayın veya bir şablon seçin.",
 	"personal_sidebar_calendar": "Kenar çubuğu takvimi",
 	"personal_preferences": "Tercihler",
+	"interface_mode_show_all_features": "Tüm özellikleri göster",
+	"interface_mode_show_simple_view": "Basit görünümü göster",
 	"personal_usage_data": "Kullanım verisi paylaşımı",
 	"personal_help_feedback": "Yardım ve geri bildirim",
 	"navigation_connected_accounts": "Bağlı hesaplar",

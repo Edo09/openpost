@@ -4,6 +4,7 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { ProtectedIcon, ThemeIcon } from '$lib/themes/icons';
 	import { cn } from '$lib/utils';
+	import { interfaceMode } from '$lib/stores/interface-mode.svelte';
 
 	interface Props {
 		scheduleLabel: string;
@@ -54,19 +55,36 @@
 	class={cn('flex min-w-0 items-center justify-end gap-1.5 md:gap-2', className)}
 	data-testid="composer-action-controls"
 >
-	<AsyncActionButton
-		type="button"
-		size="sm"
-		class="h-11 min-w-0 flex-1 gap-1.5 px-3 md:h-8 md:flex-none"
-		disabled={!canQuickSchedule}
-		state={busy || quickScheduleBusy ? 'pending' : 'idle'}
-		onclick={onQuickSchedule}
-		label={quickScheduleLabel}
-		icon="calendar"
-		title={canQuickSchedule ? quickScheduleLabel : quickScheduleDisabledReason}
-		announce={false}
-		data-testid="composer-primary-delivery-action"
-	/>
+	{#if interfaceMode.simple}
+		<!-- Simple mode publishes right away; scheduling stays one click away in the menu. -->
+		<AsyncActionButton
+			type="button"
+			size="sm"
+			class="h-11 min-w-0 flex-1 gap-1.5 px-3 md:h-8 md:flex-none"
+			disabled={!canPublish}
+			state={busy ? 'pending' : 'idle'}
+			onclick={onPublish}
+			label={publishLabel}
+			icon="send"
+			title={canPublish ? publishLabel : publishDisabledReason}
+			announce={false}
+			data-testid="composer-primary-delivery-action"
+		/>
+	{:else}
+		<AsyncActionButton
+			type="button"
+			size="sm"
+			class="h-11 min-w-0 flex-1 gap-1.5 px-3 md:h-8 md:flex-none"
+			disabled={!canQuickSchedule}
+			state={busy || quickScheduleBusy ? 'pending' : 'idle'}
+			onclick={onQuickSchedule}
+			label={quickScheduleLabel}
+			icon="calendar"
+			title={canQuickSchedule ? quickScheduleLabel : quickScheduleDisabledReason}
+			announce={false}
+			data-testid="composer-primary-delivery-action"
+		/>
+	{/if}
 	<DropdownMenu.Root>
 		<DropdownMenu.Trigger>
 			{#snippet child({ props })}
@@ -94,14 +112,16 @@
 				<ThemeIcon role="calendar" class="size-4" />
 				{scheduleLabel}
 			</DropdownMenu.Item>
-			<DropdownMenu.Item
-				disabled={!canPublish}
-				title={canPublish ? undefined : publishDisabledReason}
-				onclick={onPublish}
-			>
-				<ThemeIcon role="send" class="size-4" />
-				{publishLabel}
-			</DropdownMenu.Item>
+			{#if !interfaceMode.simple}
+				<DropdownMenu.Item
+					disabled={!canPublish}
+					title={canPublish ? undefined : publishDisabledReason}
+					onclick={onPublish}
+				>
+					<ThemeIcon role="send" class="size-4" />
+					{publishLabel}
+				</DropdownMenu.Item>
+			{/if}
 			{#if onDelete}
 				<DropdownMenu.Separator />
 				<DropdownMenu.Item

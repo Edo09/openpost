@@ -1105,7 +1105,11 @@ func main() {
 	})
 	apiroutes.FinalizeOpenAPIContract(api)
 
-	RegisterSpaRoutes(e, db, cfg.PublicURL, cfg.Edition == config.EditionCloud, cfg.PublicProfilesEnabled, cfg.DefaultLocale)
+	RegisterSpaRoutes(e, db, cfg.PublicURL, cfg.PublicProfilesEnabled, spaDocument{
+		managedEdition:  cfg.Edition == config.EditionCloud,
+		defaultLocale:   cfg.DefaultLocale,
+		simpleInterface: cfg.DefaultInterfaceMode == config.InterfaceModeSimple,
+	})
 
 	workerCtx, cancelWorker := context.WithCancel(context.Background())
 	defer cancelWorker()

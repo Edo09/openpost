@@ -4,6 +4,7 @@
 	import { onDestroy } from 'svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { auth, type AuthIdentityToken } from '$lib/stores/auth';
+	import { interfaceMode, simpleModePlatforms } from '$lib/stores/interface-mode.svelte';
 	import { client, type SocialAccount, type ProviderInfo } from '$lib/api/client';
 	import type { AccountManagementProps } from '$lib/account-management';
 	import { Badge } from '$lib/components/ui/badge';
@@ -180,6 +181,8 @@
 	let connectionProviderEntries = $derived.by(() => {
 		const entries: typeof providerEntries = [];
 		for (const provider of providerEntries) {
+			// Simple mode offers only the platforms the team publishes to.
+			if (interfaceMode.simple && !simpleModePlatforms.includes(provider.platform)) continue;
 			if (provider.platform !== 'mastodon' && provider.platform !== 'pixelfed') {
 				entries.push(provider);
 				continue;

@@ -8977,6 +8977,8 @@
 	"editor_start_workspace_image_description": "Commencez avec une page vide ou choisissez un modèle.",
 	"personal_sidebar_calendar": "Calendrier dans la barre latérale",
 	"personal_preferences": "Préférences",
+	"interface_mode_show_all_features": "Afficher toutes les fonctionnalités",
+	"interface_mode_show_simple_view": "Afficher la vue simple",
 	"personal_usage_data": "Partage des données d’utilisation",
 	"personal_help_feedback": "Aide et commentaires",
 	"navigation_connected_accounts": "Comptes connectés",

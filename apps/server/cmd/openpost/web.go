@@ -34,9 +34,8 @@ func registerSpaRoutesFromFS(
 	webFS fs.FS,
 	db *bun.DB,
 	publicURL string,
-	managedEdition bool,
 	publicProfilesEnabled bool,
-	defaultLocale string,
+	document spaDocument,
 ) {
 	// Keep package tests independent of generated frontend output while still
 	// failing immediately when the application starts without frontend assets.
@@ -50,7 +49,6 @@ func registerSpaRoutesFromFS(
 		panic("openpost: frontend application route manifest is missing or invalid. " +
 			"Run the frontend build first: `bun run build -- frontend`: " + err.Error())
 	}
-	document := spaDocument{managedEdition: managedEdition, defaultLocale: defaultLocale}
 	registerSpaRoutesWithProfileMetadataAndMatcher(e, webFS, db, publicURL, document, publicProfilesEnabled, routes)
 }
 
@@ -201,13 +199,20 @@ type spaDocument struct {
 	// defaultLocale is OPENPOST_DEFAULT_LOCALE, already normalized by the
 	// config loader. Empty leaves the browser language in charge.
 	defaultLocale string
+	// simpleInterface is OPENPOST_DEFAULT_INTERFACE_MODE=simple: people who
+	// have not chosen an interface on their device start in simple mode.
+	simpleInterface bool
 }
 
 func (d spaDocument) render(data []byte, requestPath string) []byte {
 	if d.managedEdition {
 		data = renderManagedEditionMetadata(data, requestPath)
 	}
-	return renderDefaultLocaleMetadata(data, d.defaultLocale)
+	data = renderMetadataTag(data, defaultLocaleMetaName, d.defaultLocale)
+	if d.simpleInterface {
+		data = renderMetadataTag(data, defaultInterfaceModeMetaName, "simple")
+	}
+	return data
 }
 
 func writeHTMLResponse(c echo.Context, data []byte, document spaDocument) error {
@@ -500,17 +505,21 @@ func renderManagedEditionMetadata(indexData []byte, requestPath string) []byte {
 	return []byte(strings.Replace(htmlDocument, "</body>", managedEditionReviewFallback()+"\n</body>", 1))
 }
 
-// defaultLocaleMetaName must match the selector of the custom-instanceDefault
-// Paraglide strategy in apps/web/src/lib/instance-locale.ts.
-const defaultLocaleMetaName = "openpost-default-locale"
+// Instance defaults the application reads from meta tags before it renders.
+// The names must match the selectors in apps/web/src/lib/instance-locale.ts
+// and apps/web/src/lib/stores/interface-mode.svelte.ts.
+const (
+	defaultLocaleMetaName        = "openpost-default-locale"
+	defaultInterfaceModeMetaName = "openpost-default-interface-mode"
+)
 
-func renderDefaultLocaleMetadata(indexData []byte, locale string) []byte {
+func renderMetadataTag(indexData []byte, name, content string) []byte {
 	htmlDocument := string(indexData)
-	if locale == "" || !strings.Contains(htmlDocument, "<head>") ||
-		strings.Contains(htmlDocument, `name="`+defaultLocaleMetaName+`"`) {
+	if content == "" || !strings.Contains(htmlDocument, "<head>") ||
+		strings.Contains(htmlDocument, `name="`+name+`"`) {
 		return indexData
 	}
-	meta := `<meta name="` + defaultLocaleMetaName + `" content="` + html.EscapeString(locale) + `">`
+	meta := `<meta name="` + name + `" content="` + html.EscapeString(content) + `">`
 	return []byte(strings.Replace(htmlDocument, "<head>", "<head>\n\t\t"+meta, 1))
 }
 

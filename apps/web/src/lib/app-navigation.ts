@@ -107,6 +107,26 @@ export const overviewNavigation = navigationItems(overviewNavigationIds);
 export const makeNavigation = navigationItems(makeNavigationIds);
 export const mobileNavigation = navigationItems(mobileNavigationOrder);
 
+// Simple mode keeps the publishing workflow. Every other destination stays
+// reachable by URL and returns in full mode.
+const simpleNavigationIds: ReadonlySet<PrimaryNavigationItem['id']> = new Set([
+	'home',
+	'new',
+	'publications',
+	'accounts',
+	'settings'
+]);
+
+export function inSimpleNavigation(item: PrimaryNavigationItem): boolean {
+	return simpleNavigationIds.has(item.id);
+}
+
+export function isSimpleNavigationRoute(pathname: string): boolean {
+	return primaryNavigation.some(
+		(item) => inSimpleNavigation(item) && isNavigationItemActive(item, pathname)
+	);
+}
+
 export function isNavigationItemActive(item: PrimaryNavigationItem, pathname: string): boolean {
 	return isAppRouteInFamily(pathname, item.family);
 }

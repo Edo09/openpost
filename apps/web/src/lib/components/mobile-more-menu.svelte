@@ -2,7 +2,12 @@
 	import { workspaceCtx } from '$lib/stores/workspace.svelte';
 	import { tick } from 'svelte';
 	import { ideate } from '$lib/post-builder/ideate.svelte';
-	import { primaryNavigation, type PrimaryNavigationItem } from '$lib/app-navigation';
+	import {
+		inSimpleNavigation,
+		primaryNavigation,
+		type PrimaryNavigationItem
+	} from '$lib/app-navigation';
+	import { interfaceMode } from '$lib/stores/interface-mode.svelte';
 	import type { ThemeIconRole } from '$lib/themes';
 	import { goto } from '$app/navigation';
 	import { resolveAppPath } from '$lib/app-path';
@@ -13,10 +18,12 @@
 	import WorkspaceMenuItems from './workspace-menu-items.svelte';
 	import AccountPreferencesMenu from './account-preferences-menu.svelte';
 	const destinations = $derived(
-		primaryNavigation.filter((item) =>
-			['analytics', 'ideate', 'studio', 'media', 'workflows', 'accounts', 'settings'].includes(
-				item.id
-			)
+		primaryNavigation.filter(
+			(item) =>
+				['analytics', 'ideate', 'studio', 'media', 'workflows', 'accounts', 'settings'].includes(
+					item.id
+				) &&
+				(!interfaceMode.simple || inSimpleNavigation(item))
 		)
 	);
 	let { onNavigate }: { onNavigate: () => void } = $props();

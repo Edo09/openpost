@@ -11,12 +11,14 @@
 	import type { ThemeManifest, ThemeScheme, WebResolvedTheme } from '$lib/themes';
 
 	let { publicDefault = false }: { publicDefault?: boolean } = $props();
-	let publicManifest = $state.raw<ThemeManifest | null>(null);
+	// The default Roberto Music theme paints public pages, and signed-in pages
+	// while their resolved theme loads.
+	let defaultManifest = $state.raw<ThemeManifest | null>(null);
 	$effect(() => {
-		if (!publicDefault || publicManifest) return;
+		if (defaultManifest || !(publicDefault || ($auth.isAuthenticated && workspaceID))) return;
 		void import('$lib/themes/builtins/roberto-music')
 			.then(({ robertoMusicTheme }) => {
-				publicManifest = robertoMusicTheme;
+				defaultManifest = robertoMusicTheme;
 			})
 			.catch((error) =>
 				captureClientException(error, {
@@ -90,19 +92,23 @@
 		if (resolved.data) retainedTheme = toWebResolvedTheme(resolved.data);
 	});
 	let theme = $derived.by<WebResolvedTheme | null>(() => {
-		if (authState.isAuthenticated && workspaceID && retainedTheme) return retainedTheme;
-		if (!publicDefault || !publicManifest) return null;
+		const signedIn = authState.isAuthenticated && Boolean(workspaceID);
+		if (signedIn && retainedTheme) return retainedTheme;
+		// A failed load keeps the Workshop recovery theme; a pending one shows
+		// the default theme instead of flashing Workshop first.
+		const provisional = publicDefault || (signedIn && !resolved.isError);
+		if (!provisional || !defaultManifest) return null;
 		return {
-			id: publicManifest.id,
-			revision: publicManifest.revision,
-			name: publicManifest.name,
-			iconPack: publicManifest.iconPack,
+			id: defaultManifest.id,
+			revision: defaultManifest.revision,
+			name: defaultManifest.name,
+			iconPack: defaultManifest.iconPack,
 			source: 'builtin',
 			requestedScheme: effectiveScheme,
 			scheme: effectiveScheme,
-			manifest: structuredClone(publicManifest.schemes[effectiveScheme]!),
+			manifest: structuredClone(defaultManifest.schemes[effectiveScheme]!),
 			fonts: [],
-			assets: structuredClone(publicManifest.assets)
+			assets: structuredClone(defaultManifest.assets)
 		};
 	});
 </script>

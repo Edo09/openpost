@@ -8977,6 +8977,8 @@
 	"editor_start_workspace_image_description": "Empieza con un lienzo en blanco o elige una plantilla.",
 	"personal_sidebar_calendar": "Calendario en la barra lateral",
 	"personal_preferences": "Preferencias",
+	"interface_mode_show_all_features": "Mostrar todas las funciones",
+	"interface_mode_show_simple_view": "Mostrar vista simple",
 	"personal_usage_data": "Compartir datos de uso",
 	"personal_help_feedback": "Ayuda y comentarios",
 	"navigation_connected_accounts": "Cuentas conectadas",

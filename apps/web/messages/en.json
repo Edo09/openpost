@@ -8984,6 +8984,8 @@
 	"editor_start_workspace_image_description": "Start with a blank canvas or choose a template.",
 	"personal_sidebar_calendar": "Sidebar calendar",
 	"personal_preferences": "Preferences",
+	"interface_mode_show_all_features": "Show all features",
+	"interface_mode_show_simple_view": "Show simple view",
 	"personal_usage_data": "Usage data sharing",
 	"personal_help_feedback": "Help & feedback",
 	"navigation_connected_accounts": "Connected accounts",

@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import {
+	inSimpleNavigation,
 	isNavigationItemActive,
 	isOrganizationOwnershipSettingsRoute,
+	isSimpleNavigationRoute,
 	primaryNavigation
 } from './app-navigation';
 
@@ -35,5 +37,21 @@ describe('primary application navigation', () => {
 		expect(
 			isOrganizationOwnershipSettingsRoute(new URL('https://openpost.test/settings#plan'))
 		).toBe(false);
+	});
+
+	it('keeps only the publishing workflow in simple mode', () => {
+		expect(primaryNavigation.filter(inSimpleNavigation).map((item) => item.id)).toEqual([
+			'home',
+			'new',
+			'publications',
+			'accounts',
+			'settings'
+		]);
+		expect(isSimpleNavigationRoute('/')).toBe(true);
+		expect(isSimpleNavigationRoute('/calendar')).toBe(true);
+		expect(isSimpleNavigationRoute('/publications/pub-123')).toBe(true);
+		expect(isSimpleNavigationRoute('/inbox/engagement')).toBe(false);
+		expect(isSimpleNavigationRoute('/analytics')).toBe(false);
+		expect(isSimpleNavigationRoute('/video-editor')).toBe(false);
 	});
 });

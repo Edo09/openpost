@@ -5,12 +5,14 @@
 	import { resolve } from '$app/paths';
 	import { resolveAppPath } from '$lib/app-path';
 	import {
+		inSimpleNavigation,
 		isMoreNavigationRoute,
 		isNavigationItemActive,
 		mobileNavigation,
 		primaryNavigation
 	} from '$lib/app-navigation';
 	import { ui } from '$lib/stores/ui.svelte';
+	import { interfaceMode } from '$lib/stores/interface-mode.svelte';
 	import { m } from '$lib/paraglide/messages';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { ThemeIcon } from '$lib/themes/icons';
@@ -19,12 +21,13 @@
 	import { publicationView } from '$lib/stores/publication-view.svelte';
 
 	const items = $derived(
-		workspaceCtx.currentWorkspace?.can_edit
+		(workspaceCtx.currentWorkspace?.can_edit
 			? mobileNavigation
 			: [
 					...mobileNavigation.filter((item) => item.id !== 'new'),
 					...primaryNavigation.filter((item) => item.id === 'analytics')
 				]
+		).filter((item) => !interfaceMode.simple || inSimpleNavigation(item))
 	);
 	let moreMenuOpen = $state(false);
 	let moreMenuContent = $state<HTMLDivElement | null>(null);

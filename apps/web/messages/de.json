@@ -8977,6 +8977,8 @@
 	"editor_start_workspace_image_description": "Beginne mit einer leeren Leinwand oder wähle eine Vorlage.",
 	"personal_sidebar_calendar": "Kalender in der Seitenleiste",
 	"personal_preferences": "Einstellungen",
+	"interface_mode_show_all_features": "Alle Funktionen anzeigen",
+	"interface_mode_show_simple_view": "Einfache Ansicht anzeigen",
 	"personal_usage_data": "Nutzungsdaten teilen",
 	"personal_help_feedback": "Hilfe und Feedback",
 	"navigation_connected_accounts": "Verbundene Konten",

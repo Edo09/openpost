@@ -8954,6 +8954,8 @@
 	"editor_start_workspace_image_description": "Начните с пустого холста или выберите шаблон.",
 	"personal_sidebar_calendar": "Календарь в боковой панели",
 	"personal_preferences": "Личные настройки",
+	"interface_mode_show_all_features": "Показать все функции",
+	"interface_mode_show_simple_view": "Показать простой вид",
 	"personal_usage_data": "Передача данных об использовании",
 	"personal_help_feedback": "Помощь и обратная связь",
 	"navigation_connected_accounts": "Подключённые аккаунты",

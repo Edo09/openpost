@@ -57,6 +57,10 @@ Set `OPENPOST_DEFAULT_LOCALE` to choose the interface language for people who ha
 
 A language someone picks in OpenPost always wins. Each browser also keeps the language it first opened OpenPost in, so a new default reaches browsers that have not visited the instance yet.
 
+## Simple interface
+
+Set `OPENPOST_DEFAULT_INTERFACE_MODE=simple` for teams that only publish. People start with Home, New post, Posts, Accounts, and Settings, the composer leads with **Publish now**, and Accounts offers Instagram, Facebook, and TikTok. Each person can switch to the full app from their profile menu, and the choice is kept on that device. Hidden pages stay available at their usual addresses. Administrators can also change the default in **Settings → Instance → Configuration**, which applies after a restart.
+
 ## Useful controls
 
 Set up [email](/self-hosting/email) before enabling `OPENPOST_EMAIL_VERIFICATION_REQUIRED=true`. Add `OPENPOST_EXTRA_CORS_ORIGINS` only for other origins that need browser API access. Same-origin use needs no entry.

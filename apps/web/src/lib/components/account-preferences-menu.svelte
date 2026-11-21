@@ -9,6 +9,9 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { ThemeIcon } from '$lib/themes/icons';
 	import { ui } from '$lib/stores/ui.svelte';
+	import { page } from '$app/state';
+	import { isSimpleNavigationRoute } from '$lib/app-navigation';
+	import { interfaceMode } from '$lib/stores/interface-mode.svelte';
 	let { onNavigate }: { onNavigate?: () => void } = $props();
 
 	async function handleLogout() {
@@ -21,6 +24,14 @@
 		)
 			return;
 		await goto(resolveAppPath('/login'));
+	}
+
+	function switchInterfaceMode() {
+		onNavigate?.();
+		const simple = !interfaceMode.simple;
+		interfaceMode.set(simple ? 'simple' : 'full');
+		// A page that simple mode hides would leave the navigation without a current item.
+		if (simple && !isSimpleNavigationRoute(page.url.pathname)) void goto(resolveAppPath('/home'));
 	}
 </script>
 
@@ -46,6 +57,14 @@
 	}}
 >
 	<ThemeIcon role="controls" class="size-4 text-muted-foreground" />{m.personal_preferences()}
+</DropdownMenu.Item>
+<DropdownMenu.Item
+	class="min-h-9 gap-3 [@media(pointer:coarse)]:min-h-11"
+	onclick={switchInterfaceMode}
+>
+	<ThemeIcon role="layout" class="size-4 text-muted-foreground" />{interfaceMode.simple
+		? m.interface_mode_show_all_features()
+		: m.interface_mode_show_simple_view()}
 </DropdownMenu.Item>
 <DropdownMenu.Separator />
 <DropdownMenu.Item

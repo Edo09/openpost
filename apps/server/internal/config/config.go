@@ -52,6 +52,7 @@ type Config struct {
 	MCPMode                  string
 	PublicProfilesEnabled    bool
 	DefaultLocale            string
+	DefaultInterfaceMode     string
 	FrontendURL              string
 	PublicURL                string
 	CORSOrigins              []string
@@ -213,6 +214,11 @@ const (
 	MCPModeDirect = "direct"
 	MCPModeSearch = "search"
 	MCPModeBoth   = "both"
+
+	// InterfaceModeSimple starts people in the publishing-only web interface;
+	// each person can still switch to the full interface on their device.
+	InterfaceModeFull   = "full"
+	InterfaceModeSimple = "simple"
 )
 
 func Load() *Config {
@@ -260,6 +266,7 @@ func Load() *Config {
 		MCPMode:                 getEnvEnum("OPENPOST_MCP_MODE", MCPModeDirect, MCPModeDirect, MCPModeSearch, MCPModeBoth),
 		PublicProfilesEnabled:   getEnvBoolWithAliases(true, "OPENPOST_PUBLIC_PROFILES_ENABLED"),
 		DefaultLocale:           getEnvLocale("OPENPOST_DEFAULT_LOCALE"),
+		DefaultInterfaceMode:    getEnvEnum("OPENPOST_DEFAULT_INTERFACE_MODE", InterfaceModeFull, InterfaceModeFull, InterfaceModeSimple),
 		FrontendURL:             frontendURL,
 		PublicURL:               getEnvWithFallbacks("OPENPOST_PUBLIC_URL", "", "OPENPOST_APP_URL", "OPENPOST_FRONTEND_URL"),
 		LegalAcceptanceRequired: getEnvBoolWithAliases(legalRequired, "OPENPOST_LEGAL_ACCEPTANCE_REQUIRED"),

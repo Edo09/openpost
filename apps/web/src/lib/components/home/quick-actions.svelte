@@ -3,6 +3,7 @@
 	import { ideate } from '$lib/post-builder/ideate.svelte';
 	import { m } from '$lib/paraglide/messages';
 	import { ThemeIcon } from '$lib/themes/icons';
+	import { interfaceMode } from '$lib/stores/interface-mode.svelte';
 
 	interface Props {
 		canEdit?: boolean;
@@ -11,7 +12,8 @@
 	let { canEdit = false }: Props = $props();
 </script>
 
-{#if canEdit}
+<!-- Ideas and Studio belong to the full interface. -->
+{#if canEdit && !interfaceMode.simple}
 	<ul class="grid gap-3 sm:grid-cols-2" data-testid="home-quick-actions">
 		<li>
 			<button type="button" class="action" onclick={() => ideate.show()}>

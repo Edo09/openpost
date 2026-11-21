@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { appBranding } from '$lib/app-branding.svelte';
 	import { sidebarPreferences } from '$lib/stores/sidebar-preferences.svelte';
+	import { interfaceMode } from '$lib/stores/interface-mode.svelte';
 	import { publicationView } from '$lib/stores/publication-view.svelte';
 	import { ideate } from '$lib/post-builder/ideate.svelte';
 	import { page } from '$app/state';
@@ -13,6 +14,7 @@
 	import { ui } from '$lib/stores/ui.svelte';
 	import { m } from '$lib/paraglide/messages';
 	import {
+		inSimpleNavigation,
 		isNavigationItemActive,
 		makeNavigation,
 		overviewNavigation,
@@ -53,10 +55,13 @@
 		label: navigationLabel(item.id),
 		icon: navigationIcon(item.id)
 	});
-	const overviewItems = $derived(overviewNavigation.map(withPresentation));
+	const inCurrentMode = (item: PrimaryNavigationItem) =>
+		!interfaceMode.simple || inSimpleNavigation(item);
+	const overviewItems = $derived(overviewNavigation.filter(inCurrentMode).map(withPresentation));
 	const makeItems = $derived(
 		makeNavigation
 			.filter((item) => item.id !== 'ideate' || workspaceCtx.currentWorkspace?.can_edit)
+			.filter(inCurrentMode)
 			.map(withPresentation)
 	);
 	const footerItems = $derived(
@@ -258,7 +263,9 @@
 
 	<Sidebar.Content class="gap-4 overflow-y-auto px-2 py-2">
 		{@render navigationList(overviewItems, 'sidebar-workspace-navigation')}
-		{@render navigationList(makeItems, 'sidebar-make-navigation')}
+		{#if makeItems.length > 0}
+			{@render navigationList(makeItems, 'sidebar-make-navigation')}
+		{/if}
 		{#if showDrafts}<SidebarPlanner onNavigate={navigate} />{/if}
 	</Sidebar.Content>
 
