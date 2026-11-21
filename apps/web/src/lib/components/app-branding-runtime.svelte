@@ -26,14 +26,16 @@
 		active ? (query.data?.effective ?? defaultAppBranding) : defaultAppBranding
 	);
 	$effect(() => appBranding.apply(`${$auth.user?.id ?? ''}:${workspaceID}`, active, profile, dark));
+	// app.html links the same default favicon before the app loads.
+	const defaultFaviconURL = '/roberto-music/icon.svg';
 	let failedFavicons = $state<string[]>([]);
 	const favicon = $derived(
-		[appBrandingImage(profile, dark)?.url, profile.logo?.url, '/assets/brand/icon.svg'].find(
+		[appBrandingImage(profile, dark)?.url, profile.logo?.url, defaultFaviconURL].find(
 			(url) => url && !failedFavicons.includes(url)
-		) ?? '/assets/brand/icon.svg'
+		) ?? defaultFaviconURL
 	);
 	$effect(() => {
-		if (favicon === '/assets/brand/icon.svg') return;
+		if (favicon === defaultFaviconURL) return;
 		let current = true;
 		const image = new Image();
 		image.onerror = () => {
@@ -51,7 +53,7 @@
 		link.href = favicon;
 		link.type = favicon.endsWith('.svg') ? 'image/svg+xml' : 'image/png';
 		return () => {
-			link.href = '/assets/brand/icon.svg';
+			link.href = defaultFaviconURL;
 			link.type = 'image/svg+xml';
 		};
 	});

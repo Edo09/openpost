@@ -112,7 +112,11 @@ export default defineConfig(({ isSsrBuild }) => ({
 			workbox: {
 				importScripts: ['/pwa-cache-cleanup.js'],
 				// Cache the small offline page and install assets, not every editor and AI bundle.
-				globPatterns: ['client/offline.html', 'client/assets/brand/*.{png,svg}'],
+				globPatterns: [
+					'client/offline.html',
+					'client/assets/brand/*.{png,svg}',
+					'client/roberto-music/*.{png,svg}'
+				],
 				// These are static files, not SvelteKit routes. Preserve their extensions.
 				modifyURLPrefix: { 'client/': '' },
 				manifestTransforms: [],

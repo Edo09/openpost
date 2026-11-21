@@ -2,16 +2,16 @@ import { expect, it } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import Logo from './Logo.svelte';
 
-it('updates the mark when the active theme accent changes', async () => {
+it('draws the Roberto Music beams with the middle beam in the current text color', async () => {
 	const screen = await render(Logo);
-	const logo = screen.getByRole('img', { name: 'OpenPost' }).element();
+	const logo = screen.getByRole('img', { name: 'Roberto Music' }).element();
 	const container = logo.parentElement!;
-	const paths = [...logo.querySelectorAll('path')];
-	expect(paths).toHaveLength(4);
-	for (const accent of ['rgb(253, 151, 93)', 'rgb(49, 152, 104)', 'rgb(68, 136, 255)']) {
-		container.style.setProperty('--action-focal', accent);
+	const beams = [...logo.querySelectorAll('rect')];
+	expect(beams).toHaveLength(3);
+	for (const text of ['rgb(20, 20, 24)', 'rgb(242, 245, 250)']) {
+		container.style.setProperty('color', text);
 		await expect
-			.poll(() => paths.map((path) => getComputedStyle(path).fill))
-			.toEqual(Array(4).fill(accent));
+			.poll(() => beams.map((beam) => getComputedStyle(beam).fill))
+			.toEqual(['rgb(122, 167, 245)', text, 'rgb(216, 27, 106)']);
 	}
 });

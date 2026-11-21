@@ -55,9 +55,13 @@
 			}}
 		/>
 	{:else}
+		<!-- The Roberto Music mark: three stage-light beams. The outer beams keep
+		     their brand colors so the mark is right before any theme loads; the
+		     middle beam uses the current text color to stay visible in light and
+		     dark. -->
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 128 128"
+			viewBox="4 4 24 24"
 			width={size}
 			height={size}
 			role={decorative || showText ? undefined : 'img'}
@@ -65,12 +69,9 @@
 			aria-hidden={decorative || showText ? 'true' : undefined}
 			class="h-auto max-w-full shrink-0"
 		>
-			<g fill="var(--action-focal)">
-				<path d="M24 4h36v28L32 60H4V24A20 20 0 0 1 24 4Z" />
-				<path d="M68 4h36a20 20 0 0 1 20 20v36H96L68 32Z" />
-				<path d="M4 68h28l28 28v28H24a20 20 0 0 1-20-20Z" />
-				<path d="m68 96 28-28h28v36a20 20 0 0 1-20 20H68Z" />
-			</g>
+			<rect x="6" y="14" width="4" height="12" fill="#7aa7f5" />
+			<rect x="14" y="6" width="4" height="20" fill="currentColor" />
+			<rect x="22" y="11" width="4" height="15" fill="#d81b6a" />
 		</svg>
 	{/if}
 	{#if showText && !showingWordmark}

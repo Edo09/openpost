@@ -102,7 +102,10 @@ type Service struct {
 func New(db *bun.DB, storage mediastore.BlobStorage) *Service {
 	return &Service{db: db, storage: storage}
 }
-func Default() Profile { return Profile{DisplayName: "OpenPost"} }
+
+// Default is the brand shown until an administrator saves another one. This
+// build ships for Roberto Music; its mark is drawn by apps/web Logo.svelte.
+func Default() Profile { return Profile{DisplayName: "Roberto Music"} }
 func scope(organizationID, workspaceID string) string {
 	if workspaceID != "" {
 		return "workspace:" + workspaceID

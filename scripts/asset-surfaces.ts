@@ -24,13 +24,9 @@ export const publishedProviderAssetSlugs = [
 ] as const;
 
 export const assetSurfaceManifest = {
-  frontend: [
-    "brand/icon.svg",
-    "brand/pwa-192.png",
-    "brand/pwa-512.png",
-    "brand/pwa-maskable-512.png",
-    "brand/apple-touch-icon.png",
-  ],
+  // The app uses the Roberto Music icons in apps/web/static/roberto-music/;
+  // pwa-512 remains a media fixture for frontend tests.
+  frontend: ["brand/pwa-512.png"],
   docs: [
     "marketing/missing-page.webp",
     "brand/icon.svg",
