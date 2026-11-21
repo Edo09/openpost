@@ -92,11 +92,11 @@ components:
 
 ## Overview
 
-**Default authenticated app theme: Calm. Public entry pages and anonymous profiles use Calm too. Marketing keeps its original public palette with Dither texture. Recovery and documentation theme: Workshop.**
+**Default authenticated app theme: Roberto Music. Public entry pages and anonymous profiles use Roberto Music too. Marketing keeps its original public palette with Dither texture. Recovery and documentation theme: Workshop.**
 
 `docs/specs/calm-ux.md` is the binding contract for shared grammar and navigation. Where this document and that contract differ, the contract wins.
 
-OpenPost is a calm working environment for solo founders and creators who do not want to waste time, and it must still work for small teams and agencies. Each screen answers one question. Organizations without saved theme settings start with Calm: near-white paper or soft charcoal, Manrope, soft dividers, and one warm accent. Dither is the signature material that ties the product together, on focal and primary actions, charts, progress, skeletons, empty states, and brand moments. Saved organization and workspace choices take precedence. Dither and Dither Moss remain selectable themes. Marketing preserves its green, blue, and lilac public palette, with Dither as a restrained visual effect. Workshop remains the complete fallback and documentation reference.
+OpenPost is a calm working environment for solo founders and creators who do not want to waste time, and it must still work for small teams and agencies. Each screen answers one question. Organizations without saved theme settings start with Roberto Music: a near-black stage with blue light beams (or a cool light scheme), Saira display type, and one bright blue accent. Calm, with near-white paper or soft charcoal, Manrope, soft dividers, and one warm accent, remains selectable. Dither is the signature material that ties the product together, on focal and primary actions, charts, progress, skeletons, empty states, and brand moments. Saved organization and workspace choices take precedence. Dither and Dither Moss remain selectable themes. Marketing preserves its green, blue, and lilac public palette, with Dither as a restrained visual effect. Workshop remains the complete fallback and documentation reference.
 
 The authenticated app stays focused and predictable. Marketing keeps its spacious public layout, colorful authored panels, shared neutral controls, and sparse Dither texture. Documentation uses Fumadocs with separate Guides, Self-hosting, and API reference navigation, sharing the product palette, assets, and direct voice. Every built-in family supports its declared schemes completely. When a family does not support the effective scheme, the complete Workshop scheme renders instead. Themes never mix token fragments.
 
@@ -118,7 +118,7 @@ README lockups keep the exact outlined wordmark and three solid Converge modules
 
 ## Colors
 
-The frontmatter tokens define Calm, the default app theme, owned by `packages/ui/src/lib/themes/builtins/calm.ts`. Neutrals carry the interface and the warm accent stays scarce. The named colors below belong to Workshop, the complete fallback and documentation reference. Dither's palette is in `packages/ui/src/lib/themes/builtins/dither.ts`. Custom themes replace complete semantic roles rather than overriding isolated CSS values.
+The frontmatter tokens define Calm, owned by `packages/ui/src/lib/themes/builtins/calm.ts`; the default Roberto Music theme lives in `packages/ui/src/lib/themes/builtins/roberto-music.ts`. Neutrals carry the interface and the warm accent stays scarce. The named colors below belong to Workshop, the complete fallback and documentation reference. Dither's palette is in `packages/ui/src/lib/themes/builtins/dither.ts`. Custom themes replace complete semantic roles rather than overriding isolated CSS values.
 
 ### Primary
 

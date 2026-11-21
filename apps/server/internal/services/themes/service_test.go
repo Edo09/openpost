@@ -233,7 +233,7 @@ func TestOrganizationMembersCanResolveButCannotReadManagementData(t *testing.T) 
 
 	resolved, err := service.Resolve(t.Context(), member, ResolveInput{WorkspaceID: "workspace-1", Scheme: SchemeLight})
 	require.NoError(t, err)
-	require.Equal(t, "calm", resolved.ID)
+	require.Equal(t, "roberto-music", resolved.ID)
 }
 
 func TestThemeSettingsExposeServerAuthorizedCapabilities(t *testing.T) {

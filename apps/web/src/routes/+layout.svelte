@@ -577,7 +577,7 @@
 	{#if !isPreviewRoute}
 		<PwaManager />
 	{/if}
-	<ModeWatcher disableHeadScriptInjection themeColors={{ light: '#faf9f7', dark: '#251f1c' }} />
+	<ModeWatcher disableHeadScriptInjection themeColors={{ light: '#f6f7fa', dark: '#0a0c12' }} />
 	<Toaster position="bottom-center" richColors closeButton />
 	<TelemetryConsent
 		title={m.telemetry_consent_title()}

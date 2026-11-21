@@ -10,7 +10,7 @@
 		/>
 		<link rel="manifest" href="/manifest.webmanifest" />
 		<link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
-		<meta name="theme-color" content="#faf9f7" />
+		<meta name="theme-color" content="#f6f7fa" />
 		<script>
 			// The client-only app cannot inject ModeWatcher's head script before first paint.
 			let preference;
@@ -22,13 +22,13 @@
 				(preference !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
 			document.documentElement.classList.toggle('dark', dark);
 			document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
-			document.querySelector('meta[name="theme-color"]').content = dark ? '#251f1c' : '#faf9f7';
+			document.querySelector('meta[name="theme-color"]').content = dark ? '#0a0c12' : '#f6f7fa';
 		</script>
 		<style>
-			/* Paint the canvas even while the app stylesheet is still downloading. */
+			/* Paint the default Roberto Music canvas while the app stylesheet is still downloading. */
 			@layer base {
 				html {
-					background: light-dark(oklch(0.985 0.002 80), oklch(0.145 0.008 55));
+					background: light-dark(oklch(0.977 0.004 265), oklch(0.155 0.013 270));
 				}
 			}
 		</style>

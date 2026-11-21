@@ -159,11 +159,15 @@ func workspaceOrganization(ctx context.Context, db bun.IDB, workspaceID string) 
 	return row.OrganizationID, nil
 }
 
+// defaultOrganizationThemeID is the built-in theme an Organization uses until an
+// administrator saves another default. This build ships for Roberto Music.
+const defaultOrganizationThemeID = "roberto-music"
+
 func loadSettings(ctx context.Context, db bun.IDB, organizationID string) (settingsRow, error) {
 	var row settingsRow
 	err := db.NewSelect().Model(&row).Where("organization_id = ?", organizationID).Scan(ctx)
 	if errors.Is(err, sql.ErrNoRows) {
-		family, _ := builtIn("calm")
+		family, _ := builtIn(defaultOrganizationThemeID)
 		defaultTheme := builtInReference(family)
 		return settingsRow{OrganizationID: organizationID, DefaultReferenceKind: string(defaultTheme.Kind), DefaultReferenceID: defaultTheme.ID, DefaultReferenceVersion: defaultTheme.Version}, nil
 	}

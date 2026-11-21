@@ -14,9 +14,9 @@
 	let publicManifest = $state.raw<ThemeManifest | null>(null);
 	$effect(() => {
 		if (!publicDefault || publicManifest) return;
-		void import('$lib/themes/builtins/calm')
-			.then(({ calmTheme }) => {
-				publicManifest = calmTheme;
+		void import('$lib/themes/builtins/roberto-music')
+			.then(({ robertoMusicTheme }) => {
+				publicManifest = robertoMusicTheme;
 			})
 			.catch((error) =>
 				captureClientException(error, {
