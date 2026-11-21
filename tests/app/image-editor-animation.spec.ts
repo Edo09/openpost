@@ -12,7 +12,10 @@ test("non-Latin tool keys preserve editable text and browser shortcuts", async (
   await page.getByRole("button", { name: "New project", exact: true }).click();
   const canvas = page.getByRole("application", { name: "Design canvas", exact: true });
   await expect(canvas).toBeVisible();
-  const tools = page.getByRole("navigation", { name: "OpenPost Image Editor tools", exact: true });
+  const tools = page.getByRole("navigation", {
+    name: "Roberto Music Image Editor tools",
+    exact: true,
+  });
   await canvas.dispatchEvent("keydown", {
     key: "и",
     code: "KeyB",
@@ -73,7 +76,7 @@ for (const width of [1440, 390, 320]) {
       await page.screenshot({ path: testInfo.outputPath(`before-${width}-${colorScheme}.png`) });
       if (width < 1024) {
         await page
-          .getByRole("navigation", { name: "OpenPost Image Editor tools", exact: true })
+          .getByRole("navigation", { name: "Roberto Music Image Editor tools", exact: true })
           .getByRole("button", { name: "Layers", exact: true })
           .click();
       }
@@ -81,7 +84,7 @@ for (const width of [1440, 390, 320]) {
       if (width < 1024) {
         await page.keyboard.press("Escape");
         await page
-          .getByRole("navigation", { name: "OpenPost Image Editor tools", exact: true })
+          .getByRole("navigation", { name: "Roberto Music Image Editor tools", exact: true })
           .getByRole("button", { name: "Properties", exact: true })
           .click();
       }
@@ -122,7 +125,7 @@ test("touch GIF edits persist across reload and download as an animated GIF", as
     await page.getByLabel("Open an image", { exact: true }).setInputFiles(gifPath);
     await expect(page).toHaveURL(/\/image-editor\/local_design_/);
     const tools = page.getByRole("navigation", {
-      name: "OpenPost Image Editor tools",
+      name: "Roberto Music Image Editor tools",
       exact: true,
     });
     await tools.getByRole("button", { name: "Layers", exact: true }).tap();

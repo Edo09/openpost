@@ -11,6 +11,7 @@ import { defineConfig, searchForWorkspaceRoot, type Plugin, type PluginOption } 
 import { postHogSourceMaps } from '../../scripts/posthog-source-maps.ts';
 import { paraglideFastDeclarationsPlugin } from '../../scripts/paraglide-declarations.mjs';
 import { phonemizerRuntimePlugin } from './src/lib/build/phonemizer-runtime.ts';
+import { brandedMessageModule, isParaglideMessageModule } from './src/lib/build/branded-copy.ts';
 import { devProxy } from './dev-proxy.ts';
 
 // FMT-03 (#393): src/lib/paraglide has one writer and one declared option set.
@@ -60,6 +61,18 @@ const appFrameworkPlugins = isVitest
 	: svelteKitPlugins;
 // Vite drops null values during config merges. Set this after merging so Vitest
 // never starts a project watcher that can reopen while its initial scan settles.
+// Interface copy follows App branding: the product name in compiled messages
+// becomes the live brand name. Vitest keeps the catalog text so unit tests
+// assert the copy as written.
+const brandedCopyPlugin: Plugin = {
+	name: 'openpost-branded-copy',
+	transform(code, id) {
+		if (!isParaglideMessageModule(id)) return null;
+		const branded = brandedMessageModule(code);
+		return branded === code ? null : { code: branded, map: null };
+	}
+};
+
 const testProjectWatcherPlugin: Plugin = {
 	name: 'openpost-vitest-project-watcher',
 	enforce: 'post',
@@ -98,6 +111,7 @@ export default defineConfig(({ isSsrBuild }) => ({
 		tailwindcss(),
 		...appFrameworkPlugins,
 		...(!usesPrecompiledParaglide ? [paraglidePlugin, paraglideDeclarationsPlugin] : []),
+		...(isVitest ? [] : [brandedCopyPlugin]),
 		SvelteKitPWA({
 			base: '/',
 			scope: '/',

@@ -23,7 +23,7 @@ test("Quick Cut saves a source project to OpenPost and opens it again", async ({
   });
 
   await page.goto("/quick-cut");
-  await expect(page.getByRole("button", { name: "OpenPost cloud" })).toHaveAttribute(
+  await expect(page.getByRole("button", { name: "Roberto Music cloud" })).toHaveAttribute(
     "aria-pressed",
     "true",
   );
@@ -41,7 +41,7 @@ test("Quick Cut saves a source project to OpenPost and opens it again", async ({
   );
 
   await expect((await cloudCreatePromise).ok()).toBe(true);
-  await expect(page.getByRole("img", { name: /Saved to OpenPost/ })).toBeVisible();
+  await expect(page.getByRole("img", { name: /Saved to Roberto Music/ })).toBeVisible();
   await expect(page).toHaveURL(/\/quick-cut\?project=[^&]+&storage=cloud$/u);
   const savedProjectURL = page.url();
   await page.getByRole("link", { name: "Back", exact: true }).click();
@@ -63,7 +63,7 @@ test("Quick Cut saves a source project to OpenPost and opens it again", async ({
   );
   await projectName.fill("Launch trim");
   await expect((await renameResponse).ok()).toBe(true);
-  await expect(page.getByRole("img", { name: /Saved to OpenPost/ })).toBeVisible();
+  await expect(page.getByRole("img", { name: /Saved to Roberto Music/ })).toBeVisible();
   await page.reload();
   await expect(page.getByRole("textbox", { name: "Project name" })).toHaveValue("Launch trim");
   await expect
@@ -122,5 +122,5 @@ test("Quick Cut saves a source project to OpenPost and opens it again", async ({
   await preview.focus();
   await page.keyboard.press("Enter");
   await expect(page.getByRole("button", { name: "Pause", exact: true })).toBeVisible();
-  await expect(page.getByRole("img", { name: /Saved to OpenPost/ })).toBeVisible();
+  await expect(page.getByRole("img", { name: /Saved to Roberto Music/ })).toBeVisible();
 });

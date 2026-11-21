@@ -1,4 +1,5 @@
 import { defaultAppBranding, type AppBrandingProfile } from '@openpost/query-catalog';
+import { setBrandName } from '$lib/brand-name.svelte';
 import { workspaceCtx } from '$lib/stores/workspace.svelte';
 import { auth } from '$lib/stores/auth';
 import { get } from 'svelte/store';
@@ -32,5 +33,6 @@ export const appBranding = {
 		state.active = active;
 		state.profile = profile;
 		state.dark = dark;
+		setBrandName(active ? profile.display_name : defaultAppBranding.display_name);
 	}
 };
